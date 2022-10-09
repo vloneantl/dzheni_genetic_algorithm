@@ -53,7 +53,7 @@ class Population:
 
     def parents_selection(self):
         parents_reverse_fitness = [1/item.fitness(self.matrix.matrix()) for item in self.__list]
-        parents_prob = [item / sum(parents_reverse_fitness) for item in parents_reverse_fitness]
+        parents_prob = [item / sum(np.array(parents_reverse_fitness)) for item in parents_reverse_fitness]
         chrome1, chrome2 = np.random.choice(self.__list, p=parents_prob, size=2, replace=False)
         return chrome1, chrome2
 
@@ -67,7 +67,7 @@ class Population:
 
     def select_chromosomes(self):
         parents_reverse_fitness = [1 / item.fitness(self.matrix.matrix()) for item in self.__list]
-        parents_prob = [item / sum(parents_reverse_fitness) for item in parents_reverse_fitness]
+        parents_prob = [item/ sum(np.array(parents_reverse_fitness)) for item in parents_reverse_fitness]
         self.__list = list(np.random.choice(self.__list, p=parents_prob, size=self.m, replace=False))
 
     def mean_fitness(self):
