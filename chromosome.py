@@ -29,6 +29,6 @@ class Chromosome:
         '''
         sum = 0
         for i in range(self.n-1):
-            sum+=matrix[self.__array[i],self.__array[i+1]]
-        sum+=matrix[self.__array[-1],self.__array[0]]
+            sum+=matrix[self.__array[i], self.__array[i+1]]
+        sum+=matrix[self.__array[-1], self.__array[0]]
         return sum

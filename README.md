@@ -1,5 +1,5 @@
-# dzheni_genetic_algorithm
-first lab for dzheni
+# genetic_algorithm
+first lab for dv
 
 modify only config.cfg
 
@@ -61,3 +61,6 @@ min ( ∑i ∑j c[i,j] * x[i,j] ). При этом в одном столбце 
 "pm" : 0.3,
 "min_dist" : 2,
 "max_dist" : 100
+
+# Архитектура проекта
+![](../../../../../../var/folders/_9/g4834q8n54x1mj8cr37snf6h0000gn/T/TemporaryItems/NSIRD_screencaptureui_Afg7EC/Снимок экрана 2022-10-09 в 23.04.37.png)
