@@ -1,5 +1,6 @@
 import numpy as np
 import csv
+np.random.seed(63)
 
 class Matrix:
     def __init__(self, path='matrix.csv', n=10, min_dist=2, max_dist=1000):

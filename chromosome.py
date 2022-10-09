@@ -1,7 +1,7 @@
 import random
 import numpy as np
 from itertools import permutations
-#np.random.seed(1337)
+np.random.seed(77)
 
 class Chromosome:
     def __init__(self, n=10, arr=[]):
@@ -23,7 +23,7 @@ class Chromosome:
 
     def fitness(self, matrix):
         '''
-        Подсчет критерия остановки, функция приспособленности
+        Подсчет функции приспособленности
         matrix : Matrix
         :return: float
         '''

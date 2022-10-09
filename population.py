@@ -1,7 +1,6 @@
 from chromosome import Chromosome
-import random
 import numpy as np
-#np.random.seed(33)
+np.random.seed(63)
 
 class Population:
     def __init__(self, matrix, m=5, n=10, pc=0.7, pm=0.3):
@@ -35,10 +34,10 @@ class Population:
             print(item.get_chromosome(), item.fitness(self.matrix.matrix()))
 
     def crossover(self, parent1, parent2):
-        if random.random() > self.pc:
+        if np.random.random() > self.pc:
             return parent1, parent2
         parent1, parent2 = parent1.get_chromosome(), parent2.get_chromosome()
-        swap_index = random.randint(2, self.n-1)
+        swap_index = np.random.randint(2, self.n-1)
         chrome1 = parent2[:swap_index]
         chrome2 = parent1[:swap_index]
         for i in range(0, self.n):
@@ -48,7 +47,6 @@ class Population:
                 chrome2.append(parent2[i])
         self.__list = self.__list + [Chromosome(self.n, chrome1), Chromosome(self.n, chrome2)]
         #self.__sort_list()
-
 
     def __sort_list(self):
         self.__list = sorted(self.__list, key=lambda x: x.fitness(self.matrix.matrix()))
@@ -61,9 +59,9 @@ class Population:
 
     def mutation(self):
         for i in range(len(self.__list)):
-            if random.random() > self.pm:
+            if np.random.random() > self.pm:
                 continue
-            swap_index = random.randint(2, self.n - 1)
+            swap_index = np.random.randint(2, self.n - 1)
             item = self.__list[i].get_chromosome()
             self.__list.append(Chromosome(self.n, [0]+item[swap_index:]+item[1:swap_index]))
 
@@ -76,4 +74,6 @@ class Population:
         return np.mean([item.fitness(self.matrix.matrix()) for item in self.__list])
 
     def min_fitness(self):
-        return np.min([item.fitness(self.matrix.matrix()) for item in self.__list])
+        min = [item.fitness(self.matrix.matrix()) for item in self.__list]
+        index_min = np.argmin(min)
+        return self.__list[index_min], self.__list[index_min].fitness(self.matrix.matrix())

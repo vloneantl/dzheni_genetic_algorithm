@@ -1,22 +1,24 @@
+import numpy as np
+
 from population import Population
 from Matrix import Matrix
 import matplotlib.pyplot as plt
 import json
-#np.random.seed(42)
+np.random.seed(100)
 
 with open('config.cfg', 'r') as infile:
     config = json.load(infile)
     print(config)
 
-m = config['m']
-n = config['n']
-k = config['k']
-z = config['z']
-l = config['l']
-pc = config['pc']
-pm = config['pm']
-min_dist = config['min_dist']
-max_dist = config['max_dist']
+m = config['m'] #количество особей в популяции
+n = config['n'] #количество городов
+k = config['k'] #количество родителей
+z = config['z'] #точность остановки алгоритма
+l = config['l'] #количество эпох
+pc = config['pc'] #вероятность кроссовера
+pm = config['pm'] #вероятность мутации
+min_dist = config['min_dist'] # мин расстояние между городами
+max_dist = config['max_dist'] # макс расстояние между городами
 
 matr1 = Matrix(n=n, min_dist=min_dist, max_dist=max_dist)
 matr1.generate()
@@ -26,9 +28,10 @@ matr1.print_array()
 
 pop = Population(matr1, m, n, pc, pm)
 epochs = 0
-prev_median_fitness = 0
+prev_mean_fitness = 0
 medians = []
-while epochs < l and abs(pop.mean_fitness()-prev_median_fitness) >= z:
+best = np.Inf
+while epochs < l and abs(pop.mean_fitness()-prev_mean_fitness) >= z:
     print('epoch',epochs)
     prev_mean_fitness = pop.mean_fitness()
     for _ in range(k):
@@ -38,9 +41,11 @@ while epochs < l and abs(pop.mean_fitness()-prev_median_fitness) >= z:
     epochs+=1
     pop.select_chromosomes()
     print(pop.mean_fitness())
-    print(abs(pop.mean_fitness()-prev_mean_fitness))
     medians.append(pop.mean_fitness())
+    if pop.min_fitness()[1] < best:
+        best_chrome, best = pop.min_fitness()
+
 print('finished, done', epochs,'epochs')
-print('min_fitness:',pop.min_fitness())
+print('best_fitness:',best, best_chrome.get_chromosome())
 plt.plot(medians)
 plt.show()
