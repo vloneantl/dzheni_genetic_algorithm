@@ -1,5 +1,5 @@
-# dzheni_genetic_algorithm
-first lab for dzheni
+# genetic_algorithm
+first lab for dv
 
 modify only config.cfg
 
