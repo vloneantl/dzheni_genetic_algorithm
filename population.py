@@ -29,6 +29,9 @@ class Population:
     def get_list(self):
         return self.__list
 
+    def set_list(self, l):
+        self.__list = l
+
     def print_list(self):
         for item in self.__list:
             print(item.get_chromosome(), item.fitness(self.matrix.matrix()))
