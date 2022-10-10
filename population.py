@@ -37,7 +37,7 @@ class Population:
             print(item.get_chromosome(), item.fitness(self.matrix.matrix()))
 
     def crossover(self, parent1, parent2):
-        if np.random.random() < self.pc:
+        if np.random.random() > self.pc:
             return parent1, parent2
         parent1, parent2 = parent1.get_chromosome(), parent2.get_chromosome()
         swap_index = np.random.randint(2, self.n-1)
@@ -62,7 +62,7 @@ class Population:
 
     def mutation(self):
         for i in range(len(self.__list)):
-            if np.random.random() < self.pm:
+            if np.random.random() > self.pm:
                 continue
             swap_index = np.random.randint(2, self.n - 1)
             item = self.__list[i].get_chromosome()
