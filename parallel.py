@@ -1,5 +1,6 @@
 import numpy as np
 from threading import Thread
+import matplotlib.pyplot as plt
 
 from population import Population
 from Matrix import Matrix
@@ -103,8 +104,8 @@ def final():
     for i in range(l):
         result = train_population_and_swap()
         bests.append(result[1])
-        print(result)
-    plt.plot(means)
+        print(i, result)
+    plt.plot(bests)
     plt.show()
     return result
 
