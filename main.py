@@ -29,7 +29,7 @@ matr1.print_array()
 pop = Population(matr1, m, n, pc, pm)
 epochs = 0
 prev_mean_fitness = 0
-medians = []
+means = []
 best = np.Inf
 while epochs < l:# and abs(pop.mean_fitness()-prev_mean_fitness) >= z:
     print('epoch',epochs)
@@ -41,11 +41,11 @@ while epochs < l:# and abs(pop.mean_fitness()-prev_mean_fitness) >= z:
     epochs+=1
     pop.select_chromosomes()
     print(pop.mean_fitness())
-    medians.append(pop.mean_fitness())
+    means.append(pop.mean_fitness())
     if pop.min_fitness()[1] < best:
         best_chrome, best = pop.min_fitness()
 
 print('finished, done', epochs,'epochs')
 print('best_fitness:',best, best_chrome.get_chromosome())
-plt.plot(medians)
+plt.plot(means)
 plt.show()

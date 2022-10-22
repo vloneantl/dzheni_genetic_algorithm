@@ -17,7 +17,7 @@ class Matrix:
             for j in range(i, self.n):
                 if i == j:
                     self.__array[i, j] = 9999999
-                elif self.__trivial_definition == 1 and i == j-1:
+                elif self.__trivial_definition == 1 and (i == j-1 or (i==0 and j==self.n-1)):
                     self.__array[i, j] = 1
                 elif i != j:
                     value = np.random.randint(low=self.min_dist, high=self.max_dist)
