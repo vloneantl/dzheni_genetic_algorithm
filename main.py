@@ -4,7 +4,7 @@ from population import Population
 from Matrix import Matrix
 import matplotlib.pyplot as plt
 import json
-np.random.seed(100)
+np.random.seed(1337)
 
 with open('config.cfg', 'r') as infile:
     config = json.load(infile)
@@ -20,7 +20,7 @@ pm = config['pm'] #вероятность мутации
 min_dist = config['min_dist'] # мин расстояние между городами
 max_dist = config['max_dist'] # макс расстояние между городами
 
-matr1 = Matrix(n=n, min_dist=min_dist, max_dist=max_dist)
+matr1 = Matrix(n=n, min_dist=min_dist, max_dist=max_dist, trivial_definition=1)
 matr1.generate()
 matr1.save_csv()
 matr1.read_csv()
@@ -31,7 +31,7 @@ epochs = 0
 prev_mean_fitness = 0
 medians = []
 best = np.Inf
-while epochs < l and abs(pop.mean_fitness()-prev_mean_fitness) >= z:
+while epochs < l:# and abs(pop.mean_fitness()-prev_mean_fitness) >= z:
     print('epoch',epochs)
     prev_mean_fitness = pop.mean_fitness()
     for _ in range(k):
