@@ -21,8 +21,8 @@ min_dist = config['min_dist'] # мин расстояние между горо�
 max_dist = config['max_dist'] # макс расстояние между городами
 
 matr1 = Matrix(n=n, min_dist=min_dist, max_dist=max_dist, trivial_definition=1)
-# matr1.generate()
-# matr1.save_csv()
+matr1.generate()
+matr1.save_csv()
 matr1.read_csv()
 matr1.print_array()
 

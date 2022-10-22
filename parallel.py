@@ -1,4 +1,5 @@
 import numpy as np
+from threading import Thread
 
 from population import Population
 from Matrix import Matrix
@@ -6,6 +7,9 @@ import json
 from joblib import Parallel, delayed
 
 # np.random.seed(100)
+
+from multiprocessing.pool import ThreadPool
+pool = ThreadPool(processes=10)
 
 with open('config.cfg', 'r') as infile:
     config = json.load(infile)
@@ -49,12 +53,13 @@ def train_one_population(pop):
         medians.append(pop.mean_fitness())
         if pop.min_fitness()[1] < best:
             best_chrome, best = pop.min_fitness()
+
     return best_chrome.get_chromosome(), best
 
 
 def swap(population1, population2):
     sorted_population1 = population1.sort_list().get_list()
-    sorted_population2 = population2.sort_list().get_list()
+    sorted_population2 = population2.sort_list().get_list()[::-1]
     chromosome_item_count_to_migrate = int(len(sorted_population1) * migration_part)
     sorted_population1, sorted_population2 = \
         [sorted_population2[:chromosome_item_count_to_migrate] + sorted_population1[chromosome_item_count_to_migrate:],
@@ -64,19 +69,43 @@ def swap(population1, population2):
     return population1, population2
 
 
+class ThreadWithReturnValue(Thread):
+    def __init__(self, group=None, target=None, name=None,
+                 args=(), kwargs={}, Verbose=None):
+        Thread.__init__(self, group, target, name, args, kwargs)
+        self._return = None
+    def run(self):
+        if self._target is not None:
+            self._return = self._target(self._args)
+    def join(self):
+        Thread.join(self)
+        return self._return
+
 def train_population_and_swap():
-    result = Parallel(n_jobs=-1)(delayed(train_one_population)(populations[i]) for i in range(pop_cnt))
+    result= []
+    threads = []
+    for i in range(len(populations)):
+        x = ThreadWithReturnValue(target=train_one_population, args=populations[i])
+        x.start()
+        threads.append(x)
+    for thread in threads:
+        result.append(thread.join())
     for _ in range(population_pairs_to_swap):
         population_items_to_swap = np.random.choice(list(range(pop_cnt)), size=2, replace=False)
         populations[population_items_to_swap[0]], populations[population_items_to_swap[1]] = \
             swap(populations[population_items_to_swap[0]], populations[population_items_to_swap[1]])
-    return result
+    result.sort(key=lambda x: x[1])
+    return result[0]
 
 
 def final():
+    bests = []
     for i in range(l):
         result = train_population_and_swap()
-        print(result[1])
+        bests.append(result[1])
+        print(result)
+    plt.plot(means)
+    plt.show()
     return result
 
 
