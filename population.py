@@ -16,7 +16,7 @@ class Population:
         self.__list = []
         self.generate_chromosomes()
         self.matrix = matrix
-        #self.__sort_list()
+        #self.sort_list()
         self.pm = pm
 
     def generate_chromosomes(self):
@@ -51,8 +51,9 @@ class Population:
         self.__list = self.__list + [Chromosome(self.n, chrome1), Chromosome(self.n, chrome2)]
         #self.__sort_list()
 
-    def __sort_list(self):
+    def sort_list(self):
         self.__list = sorted(self.__list, key=lambda x: x.fitness(self.matrix.matrix()))
+        return self
 
     def parents_selection(self):
         parents_reverse_fitness = [1/item.fitness(self.matrix.matrix()) for item in self.__list]
